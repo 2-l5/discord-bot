@@ -7,4 +7,5 @@ features:
 
 planned future implementation:
 - bot sends embeds & attachments
-- user can add embeds & attachments to database
+- user can add attachments to database
+      - perhaps embeds & other media
