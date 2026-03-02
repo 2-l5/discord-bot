@@ -1,7 +1,9 @@
 #todo:
 # - mysql
-# - help / command documentation
+# - create help documentation/webhook
 # - update _display function
+# - fix command function
+# - add delete function?
 
 
 
