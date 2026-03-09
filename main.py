@@ -58,7 +58,7 @@ async def on_ready():
 
 # SOURCE: https://pastebin.com/V3SSabxR
 """ TASK: sends message, otherwise returns error and breaks loop until modified """
-@tasks.loop(seconds=60)
+@tasks.loop(hours=168)
 async def _scheduled_message():
     channel = bot.get_channel(CHANNEL_ID)
 
@@ -101,20 +101,24 @@ async def schedule(ctx, hours: int = commands.parameter(description="hours") #sp
     param: quote OR link/embed OR attachment (.png, .jpg, .gif) """
 @bot.command(help="adds an item to quotebook (only text and links for now) & quotes must be encased in quotation marks", aliases=["quote"])
 async def add(ctx, quote = commands.parameter(description="messages, images, link/embeds"), 
-              author: str = commands.parameter(default=None, description="author of quote")):
+              author: str = commands.parameter(default=None, description="author of quote")): #TODO: image and emoji implementation
         
     try:    
         if author is None:
             cursor.execute("INSERT INTO quotebook (quote) VALUES (?)", (quote,)) #do NOT use f strings, also idk why there's a comma after quote
         else:
             cursor.execute("INSERT INTO quotebook (quote, author) VALUES (?, ?)", (quote, author,))
+    except sqlite3.IntegrityError: #doesnt run
+        await ctx.send("already exists in database doofus")
+        return 0
     except sqlite3.Error as e:
         print(f"An error adding query: {e}")
         connection.rollback()
         connection.commit()
-        
         _scheduled_message.stop()
         return 0
+    
+    
     
     connection.commit()
     print(f"added item, {quote}, to quotebook")
@@ -141,10 +145,8 @@ async def channel(ctx, new_channel: int = commands.parameter(description="channe
 @commands.is_owner()
 async def display(ctx):
     quotebook = cursor.execute("SELECT rowid, * FROM quotebook")
-    string = ""
     for quote in quotebook.fetchall():
-        string += str(quote) + "\n"
-    await ctx.send(string)
+        await ctx.send(quote)
 
 @bot.command(hidden=True, aliases=["quit", "stop"])
 @commands.is_owner()
