@@ -8,3 +8,4 @@ features:
 
 planned future implementation:
 - bot sends attachments without wacky work around
+- improve storage system???
