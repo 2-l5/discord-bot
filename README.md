@@ -6,12 +6,13 @@ project is currently abandoned because i don't have a device to run this program
 ---
 
 features:
-- sends quotes at set intervals
-- users can add more quotes
-- quotes are permanently stored even after bot is shut off
+- sends quotes at changeable intervals (seconds, hours, days)
+- users can add or remove quotes
+- quotes are stored using SQLite
 
 ---
 
-planned future implementation:
+future implementation/fixes:
 - bot sends attachments without needing message link
-- improve storage system???
+- does not detect quotes starting w/ emojis as input
+- deleted quotes are null? (i can't remember exactly)
