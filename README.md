@@ -13,5 +13,5 @@ features:
 ---
 
 planned future implementation:
-- bot sends attachments without wacky work around
+- bot sends attachments without needing message link
 - improve storage system???
